@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# script for automating node server configuration
+USER=app-data
+
+# prepare system
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install python-software-properties
+sudo apt-get -y install build-essential openssl libssl-dev
+sudo apt-get -y install make 
+sudo apt-get -y install g++ 
+sudo apt-get -y install gcc
+
+# install git
+sudo apt-get -y install git-core curl
+
+# install mongodb
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee -a /etc/apt/sources.list.d/10gen.list
+sudo apt-get -y update
+sudo apt-get -y install mongodb-10gen
+
+# install redis
+echo "# /etc/apt/sources.list.d/dotdeb.org.list" | sudo tee -a /etc/apt/sources.list.d/dotdeb.org.list
+echo "deb http://packages.dotdeb.org stable all" | sudo tee -a /etc/apt/sources.list.d/dotdeb.org.list
+echo "deb-src http://packages.dotdeb.org stable all" | sudo tee -a /etc/apt/sources.list.d/dotdeb.org.list
+wget -q -O - http://www.dotdeb.org/dotdeb.gpg | sudo apt-key add -
+sudo apt-get -y update
+sudo apt-get -y install redis-server
+
+# create user that will handle web apps
+sudo adduser $USER
+sudo adduser $USER admin
+sudo mkdir /home/$USER/.ssh
+sudo cp ~/.ssh/authorized_keys /home/$USER/.ssh/
+sudo chown -R $USER:$USER /home/$USER/.ssh
+
+# give user passwordless sudo on upstart commands
+sudo echo -e "\n# give upstart user passwordless sudo on upstart cmds" | sudo tee -a /etc/sudoers
+sudo echo -e "Cmnd_Alias UPSTART= /sbin/start, /sbin/stop" | sudo tee -a /etc/sudoers
+sudo echo -e "$USER ALL=(ALL) NOPASSWD: UPSTART" | sudo tee -a /etc/sudoers
+
+# create directory where apps builds will be stored
+sudo mkdir -p /var/builds/live/.payloads
+sudo mkdir -p /var/builds/dev/.payloads
+sudo chown -R $USER:$USER /var/builds/
+
+# install node and npm
+cd ~/
+git clone git://github.com/joyent/node.git
+cd node
+git checkout v0.8.5
+./configure
+make
+sudo make install
+
+sudo shutdown -r now
