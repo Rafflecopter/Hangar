@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Eventually, this will be set equal to an env var after build
-#HPATH=$HANGAR_PATH
-HPATH=/home/justin/server_scripts
+HPATH=$HANGAR_PATH
 
 case $1 in
     addserver ) 
@@ -15,6 +13,7 @@ case $1 in
         else
             ./addkey2server "$2"
             ssh "$2" 'bash -s' < builds/testscript
+            test -d connected_servers || mkdir connected_servers
             touch $HPATH/connected_servers/$4
             echo "$2" | sed -e 's/.*@//' > $HPATH/connected_servers/$4
         fi
