@@ -14,8 +14,11 @@ put these in your package.json file:
 
 
 
-Set an alias:
+Set an alias:  
 alias hangar='{path}/hangar'
+
+Add path to your local repo as an env var:  
+export HANGAR_PATH={path}
 
 
 **hangar addserver** {user}@{host} as {server_alias}  
