@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Eventually, this will be set equal to an env var after build
+#HPATH=$HANGAR_PATH
+HPATH=/home/justin/server_scripts
+
+case $1 in
+    addserver ) 
+        cd $HPATH
+        echo -e "Configuring new server...\n" 
+        if [ -e "$HPATH/connected_servers/$4" ]
+        then
+            read -p "You already added this server. Configure again (y/n)?"
+            [ "$REPLY" == "n" ] || ssh "$2" 'bash -s' < ./testscript
+        else
+            ./addkey2server "$2"
+            ssh "$2" 'bash -s' < ./testscript
+            touch $HPATH/connected_servers/$4
+            echo "$2" | sed -e 's/.*@//' > $HPATH/connected_servers/$4
+        fi
+        ;;
+    listservers )
+        echo "Here are the servers you have configured:"
+        ls $HPATH/connected_servers
+        ;;
+    createapp )
+        cd $HPATH
+        echo "Creating your app..."
+        HOST=$( cat $HPATH/connected_servers/$4 )
+        ./createapp $2 "app-data@$HOST"
+        ;;
+    push )
+        jake deploylive
+        ;;
+    * )
+        echo "I only recognize these: addserver, listservers, createapp, push"
+        ;;
+esac

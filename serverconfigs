@@ -38,7 +38,7 @@ sudo chown -R $USER:$USER /home/$USER/.ssh
 
 # give user passwordless sudo on upstart commands
 sudo echo -e "\n# give upstart user passwordless sudo on upstart cmds" | sudo tee -a /etc/sudoers
-sudo echo -e "Cmnd_Alias UPSTART= /sbin/start, /sbin/stop" | sudo tee -a /etc/sudoers
+sudo echo -e "Cmnd_Alias UPSTART= /sbin/start, /sbin/stop, /usr/bin/rsync" | sudo tee -a /etc/sudoers
 sudo echo -e "$USER ALL=(ALL) NOPASSWD: UPSTART" | sudo tee -a /etc/sudoers
 
 # create directory where apps builds will be stored

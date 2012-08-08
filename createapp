@@ -1,0 +1,8 @@
+APP_NAME=$1
+SSH=${@:2}
+
+sed -e "s;%APP_NAME%;$APP_NAME;g;" upstart_template.conf > $APP_NAME-live.conf
+
+rsync -a -e "ssh" --rsync-path="sudo rsync" $APP_NAME-live.conf "$SSH":/etc/init
+
+rm $APP_NAME-live.conf

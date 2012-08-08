@@ -1,16 +1,30 @@
 Use launch for deploying node projects
 https://github.com/bengourley/launch
 
+put these in your package.json file:
+  "launchconf": {
+    "remote":     "app-data@<host>",
+    "remotepath": "/var/builds/"
+  },
+  
+  "devDependencies": {
+    "launch" : ">=0.0.1"
+  }
 
 
-SETUP A NEW NODE SERVER
-=======================
 
-1) add your key to ~/.ssh/authorized_keys on the server
+Set an alias:
+alias hangar='<path>/hangar'
 
-2) rsync setupserver washplant-live.conf <user>@<host>:/home/<user/
 
-3) ssh into server and run ./setupserver
+**hangar addserver** <user>@<host> as <server_alias>
+Configure the node server from clean Ubuntu 12.04 and refer to it from now on as <server_alias>
 
-4) Customize upstart configuration <app>-live.conf and put in /etc/init:
-    - use app-data for username unless changed in setupserver script
+**hangar listservers**
+List the servers that have been configured
+
+**hangar createapp** <app_name> on <server_alias>
+Add upstart script for <app_name>. App can now be started and stopped
+
+**hangar push**
+From inside the app repository this will run 'jake deploylive'
