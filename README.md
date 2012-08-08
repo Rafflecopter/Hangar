@@ -1,8 +1,8 @@
 Use launch for deploying node projects
 https://github.com/bengourley/launch
 
-put these in your package.json file:
 
+put these in your package.json file:
     "launchconf": {
       "remote":     "app-data@<host>",
       "remotepath": "/var/builds/"
@@ -13,12 +13,11 @@ put these in your package.json file:
     }
 
 
-
 Set an alias:  
-alias hangar='{path}/hangar'
+    alias hangar='{path}/hangar'
 
 Add path to your local repo as an env var:  
-export HANGAR_PATH={path}
+    export HANGAR_PATH={path}
 
 
 CLI Usage
