@@ -21,6 +21,8 @@ Add path to your local repo as an env var:
 export HANGAR_PATH={path}
 
 
+CLI Usage
+---------
 **hangar addserver** {user}@{host} as {server_alias}  
 Configure the node server from clean Ubuntu 12.04 and refer to it from now on as <server_alias>
 
