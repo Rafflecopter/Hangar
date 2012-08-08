@@ -19,13 +19,17 @@ alias hangar='{path}/hangar'
 
 
 **hangar addserver** {user}@{host} as {server_alias}
+----------------------------------------------------
 Configure the node server from clean Ubuntu 12.04 and refer to it from now on as <server_alias>
 
 **hangar listservers**
+----------------------
 List the servers that have been configured
 
 **hangar createapp** {app_name} on {server_alias}
+-------------------------------------------------
 Add upstart script for {app_name}. App can now be started and stopped
 
 **hangar push**
+---------------
 From inside the app repository this will run 'jake deploylive'
