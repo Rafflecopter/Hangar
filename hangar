@@ -11,10 +11,10 @@ case $1 in
         if [ -e "$HPATH/connected_servers/$4" ]
         then
             read -p "You already added this server. Configure again (y/n)?"
-            [ "$REPLY" == "n" ] || ssh "$2" 'bash -s' < ./testscript
+            [ "$REPLY" == "n" ] || ssh "$2" 'bash -s' < builds/testscript
         else
             ./addkey2server "$2"
-            ssh "$2" 'bash -s' < ./testscript
+            ssh "$2" 'bash -s' < builds/testscript
             touch $HPATH/connected_servers/$4
             echo "$2" | sed -e 's/.*@//' > $HPATH/connected_servers/$4
         fi
