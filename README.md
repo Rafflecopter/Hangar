@@ -2,10 +2,10 @@ Use launch for deploying node projects
 https://github.com/bengourley/launch
 
 
-put these in your package.json file:  
+put these in your package.json file (replace "cheeseburgers.com" with your host):  
 
     "launchconf": {
-      "remote":     "app-data@<host>",
+      "remote":     "app-data@cheeseburgers.com",
       "remotepath": "/var/builds/"
     },
     
@@ -26,7 +26,7 @@ Add path to your local repo as an env var:
 CLI Usage
 ---------
 **hangar addserver** {user}@{host} as {server_alias}  
-Configure the node server from clean Ubuntu 12.04 and refer to it from now on as <server_alias>
+Configure the node server from clean Ubuntu 12.04 and refer to it from now on as {server_alias}
 
 **hangar listservers**  
 List the servers that have been configured
