@@ -1,1 +1,6 @@
+PASSENC=$( python -c "import crypt, getpass, pwd; print crypt.crypt(\"$1\", '\$6\$SALTsalt\$')" )
+
 echo "This is a test"
+echo "Username: app-data"
+echo "Password(plain-text): $1"
+echo "Password(encrypted): $PASSENC"

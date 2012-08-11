@@ -1,6 +1,7 @@
 #!/bin/bash
 
 HPATH=$HANGAR_PATH
+CONFIGSCRIPT=builds/node_redis_mongo
 
 case $1 in
     addserver ) 
@@ -9,10 +10,15 @@ case $1 in
         if [ -e "$HPATH/connected_servers/$4" ]
         then
             read -p "You already added this server. Configure again (y/n)?"
-            [ "$REPLY" == "n" ] || ssh "$2" 'bash -s' < builds/testscript
+            [ "$REPLY" == "n" ] || \
+                echo "Let's create a user named \"app-data\" for the deployment."
+                read -p "Choose a password: " 
+                ssh "$2" 'bash -s' < $CONFIGSCRIPT "$REPLY"
         else
             ./addkey2server "$2"
-            ssh "$2" 'bash -s' < builds/testscript
+                echo "Let's create a user named \"app-data\" for the deployment."
+            read -p "Choose a password: " 
+            ssh "$2" 'bash -s' < $CONFIGSCRIPT "$REPLY"
             test -d connected_servers || mkdir connected_servers
             touch $HPATH/connected_servers/$4
             echo "$2" | sed -e 's/.*@//' > $HPATH/connected_servers/$4
