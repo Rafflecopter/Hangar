@@ -7,7 +7,7 @@ PASSENC=$( python -c "import crypt, getpass, pwd; print crypt.crypt(\"$1\", '\$6
 # prepare system
 sudo apt-get -y --force-yes update
 sudo apt-get -y --force-yes upgrade
-sudo apt-get -y --force-yes install build-essential openssl libssl-dev make g++ gcc
+sudo apt-get -y --force-yes install build-essential openssl libssl-dev make g++ gcc zip
 
 # install git
 sudo apt-get -y --force-yes install git-core
