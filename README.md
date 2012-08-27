@@ -22,6 +22,10 @@ Add path to your local repo as an env var:
   
     export HANGAR_PATH={path}
 
+Jakefile.js is an example jakefile that you should put in your project directory.
+
+Set your project's ENV variables by putting a file called envlive.js in a directory called "config" in your project directory.
+
 
 CLI Usage
 ---------
