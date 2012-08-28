@@ -29,7 +29,7 @@ Set your project's ENV variables by putting a file called envlive.js in a direct
 
 CLI Usage
 ---------
-**hangar addserver** {user}@{host} as {server_alias} [using {buildscript_name}] 
+**hangar addserver** {user}@{host} as {server_alias} [using {buildscript_name}]  
 Configure the node server from clean Ubuntu 12.04 and refer to it from now on as {server_alias} using {buildscript_name} from the "builds" directory. {buildscript_name} defaults to node_redis_mongo.
 
 **hangar listservers**  
