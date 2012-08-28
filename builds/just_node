@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# script for automating node server configuration
+USER=app-data
+PASSENC=$( python -c "import crypt, getpass, pwd; print crypt.crypt(\"$1\", '\$6\$SALTsalt\$')" )
+
+# prepare system
+sudo apt-get -y --force-yes update
+sudo apt-get -y --force-yes upgrade
+sudo apt-get -y --force-yes install build-essential openssl libssl-dev make g++ gcc zip
+
+# install git
+sudo apt-get -y --force-yes install git-core
+
+# create user that will handle web apps
+sudo addgroup admin
+sudo useradd -d /home/$USER -m -g admin -p "$PASSENC" "$USER"
+sudo mkdir /home/$USER/.ssh
+if [ -f ~/.ssh/authorized_keys ]
+then
+    sudo cp ~/.ssh/authorized_keys /home/$USER/.ssh/
+fi
+sudo chown -R $USER:admin /home/$USER/.ssh
+
+# give user passwordless sudo on upstart commands
+if [ ! -f /etc/sudoersmod ]
+then
+    echo -e "\n# give upstart user passwordless sudo on upstart cmds" | sudo tee -a /etc/sudoers
+    echo -e "Cmnd_Alias UPSTART= /sbin/start, /sbin/stop, /usr/bin/rsync" | sudo tee -a /etc/sudoers
+    echo -e "$USER ALL=(ALL) NOPASSWD: UPSTART" | sudo tee -a /etc/sudoers
+    sudo touch /etc/sudoersmod
+fi
+
+# install node and npm
+cd ~/
+git clone git://github.com/joyent/node.git
+cd node
+git checkout v0.8.6
+./configure
+make
+sudo make install
+
+# create directory where apps builds will be stored
+sudo mkdir -p /var/builds/live/.payloads
+sudo mkdir -p /var/builds/dev/.payloads
+sudo chown -R $USER:admin /var/builds/
+
+sudo shutdown -r now
