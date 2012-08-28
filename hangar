@@ -1,7 +1,7 @@
 #!/bin/bash
 
 HPATH=$HANGAR_PATH
-CONFIGSCRIPT=builds/node_redis_mongo
+CONFIGSCRIPT=builds/${6-node_redis_mongo}
 
 case $1 in
     addserver ) 
@@ -39,5 +39,6 @@ case $1 in
         ;;
     * )
         echo "I only recognize these: addserver, listservers, createapp, push"
+        echo $CONFIGSCRIPT
         ;;
 esac
