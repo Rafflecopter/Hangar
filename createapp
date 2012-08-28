@@ -6,3 +6,5 @@ sed -e "s;%APP_NAME%;$APP_NAME;g;" upstart_template.conf > $APP_NAME-live.conf
 rsync -a -e "ssh" --rsync-path="sudo rsync" $APP_NAME-live.conf "$SSH":/etc/init
 
 rm $APP_NAME-live.conf
+echo "Created ${APP_NAME} on ${@:2}"
+
